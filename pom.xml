@@ -6,10 +6,10 @@
 
     <groupId>ai.philterd</groupId>
     <artifactId>phileas-connector</artifactId>
-    <version>474</version>
+    <version>475</version>
     <name>phileas-connector</name>
     <description>Phileas connector for Trino</description>
-    <url>https://github.com/resurfaceio/phileas-connector</url>
+    <url>https://github.com/philterd/phileas-connector</url>
 
     <packaging>trino-plugin</packaging>
 
@@ -25,7 +25,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-source-plugin</artifactId>
-                <version>2.2.1</version>
+                <version>3.3.1</version>
                 <executions>
                     <execution>
                         <id>attach-sources</id>
@@ -38,7 +38,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-dependency-plugin</artifactId>
-                <version>3.0.2</version>
+                <version>3.8.1</version>
                 <executions>
                     <execution>
                         <id>copy-dependencies</id>
@@ -132,7 +132,7 @@
         <dependency>
             <groupId>io.trino</groupId>
             <artifactId>trino-testing</artifactId>
-            <version>471</version>
+            <version>${project.version}</version>
             <scope>test</scope>
         </dependency>
         <dependency>
