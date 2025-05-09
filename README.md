@@ -11,7 +11,19 @@ Simple scalar functions are provided to redact `varchar` data provided by any ot
 * Java 23
 * Maven 3.9.x
 * [philterd/phileas](https://github.com/philterd/phileas) 
-* Trino (see `pom.xml` for version)
+* Trino (see `pom.xml` for specific version)
+
+## Artifacts
+
+Artifacts are available from Maven Central.
+
+```
+<dependency>
+  <groupId>ai.philterd</groupId>
+  <artifactId>phileas-connector</artifactId>
+  <version>475</version>
+</dependency>
+```
 
 ## Configuring Trino
 
