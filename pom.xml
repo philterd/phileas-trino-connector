@@ -3,16 +3,35 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-
     <groupId>ai.philterd</groupId>
     <artifactId>phileas-connector</artifactId>
-    <version>475</version>
+    <version>475-SNAPSHOT</version>
     <name>phileas-connector</name>
     <description>Phileas connector for Trino</description>
     <url>https://github.com/philterd/phileas-connector</url>
-
     <packaging>trino-plugin</packaging>
-
+    <properties>
+        <air.main.basedir>${project.basedir}</air.main.basedir>
+        <trino.version>475</trino.version>
+        <maven.compiler.source>23</maven.compiler.source>
+        <maven.compiler.target>23</maven.compiler.target>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    </properties>
+    <issueManagement>
+        <system>GitHub</system>
+        <url>https://github.com/philterd/phileas-connector/issues</url>
+    </issueManagement>
+    <licenses>
+        <license>
+            <name>Apache License, Version 2.0</name>
+            <url>https://www.apache.org/licenses/LICENSE-2.0.txt</url>
+            <distribution>repo</distribution>
+        </license>
+    </licenses>
+    <organization>
+        <name>Philterd, LLC</name>
+        <url>https://www.philterd.ai</url>
+    </organization>
     <build>
         <plugins>
             <plugin>
@@ -21,7 +40,6 @@
                 <version>11</version>
                 <extensions>true</extensions>
             </plugin>
-
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-source-plugin</artifactId>
@@ -54,6 +72,15 @@
                         </configuration>
                     </execution>
                 </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.sonatype.central</groupId>
+                <artifactId>central-publishing-maven-plugin</artifactId>
+                <version>0.7.0</version>
+                <extensions>true</extensions>
+                <configuration>
+                    <publishingServerId>central</publishingServerId>
+                </configuration>
             </plugin>
         </plugins>
     </build>
@@ -94,7 +121,7 @@
         <dependency>
             <groupId>io.trino</groupId>
             <artifactId>trino-spi</artifactId>
-            <version>${project.version}</version>
+            <version>${trino.version}</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
@@ -121,18 +148,16 @@
             <version>1.47.0</version>
             <scope>provided</scope>
         </dependency>
-
-        <!-- for testing -->
         <dependency>
             <groupId>io.trino</groupId>
             <artifactId>trino-main</artifactId>
-            <version>471</version>
+            <version>${trino.version}</version>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>io.trino</groupId>
             <artifactId>trino-testing</artifactId>
-            <version>${project.version}</version>
+            <version>${trino.version}</version>
             <scope>test</scope>
         </dependency>
         <dependency>
@@ -142,47 +167,4 @@
             <scope>test</scope>
         </dependency>
     </dependencies>
-
-    <issueManagement>
-        <system>GitHub</system>
-        <url>https://github.com/philterd/phileas-connector/issues</url>
-    </issueManagement>
-
-    <licenses>
-        <license>
-            <name>Apache License, Version 2.0</name>
-            <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
-            <distribution>repo</distribution>
-        </license>
-    </licenses>
-
-    <organization>
-        <name>Philterd, LLC</name>
-        <url>https://www.philterd.ai</url>
-    </organization>
-
-    <properties>
-        <air.main.basedir>${project.basedir}</air.main.basedir>
-        <maven.compiler.source>23</maven.compiler.source>
-        <maven.compiler.target>23</maven.compiler.target>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    </properties>
-
-    <repositories>
-        <repository>
-            <id>philterd-repository-releases</id>
-            <url>https://artifacts.philterd.ai/releases</url>
-            <snapshots>
-                <enabled>true</enabled>
-            </snapshots>
-        </repository>
-        <repository>
-            <id>philterd-repository-snapshots</id>
-            <url>https://artifacts.philterd.ai/snapshots</url>
-            <snapshots>
-                <enabled>true</enabled>
-            </snapshots>
-        </repository>
-    </repositories>
-
 </project>

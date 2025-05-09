@@ -11,7 +11,7 @@ Simple scalar functions are provided to redact `varchar` data provided by any ot
 * Java 23
 * Maven 3.9.x
 * [philterd/phileas](https://github.com/philterd/phileas) 
-* Trino 468
+* Trino (see `pom.xml` for version)
 
 ## Configuring Trino
 
