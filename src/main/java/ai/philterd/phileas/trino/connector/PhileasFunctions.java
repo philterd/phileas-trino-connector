@@ -16,6 +16,7 @@
 
 package ai.philterd.phileas.trino.connector;
 
+import ai.philterd.phileas.model.cache.InMemoryCache;
 import ai.philterd.phileas.model.configuration.PhileasConfiguration;
 import ai.philterd.phileas.model.enums.MimeType;
 import ai.philterd.phileas.model.policy.Identifiers;
@@ -76,7 +77,7 @@ public final class PhileasFunctions {
             policy.setIdentifiers(identifiers);
             Properties properties = new Properties();
             PhileasConfiguration configuration = new PhileasConfiguration(properties, "phileas");
-            filterService = new PhileasFilterService(configuration);
+            filterService = new PhileasFilterService(configuration, new InMemoryCache());
         } catch (Exception e) {
             log.error(e);
         }
