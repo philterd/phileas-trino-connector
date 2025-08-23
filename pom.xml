@@ -13,8 +13,8 @@
     <properties>
         <air.main.basedir>${project.basedir}</air.main.basedir>
         <trino.version>476</trino.version>
-        <maven.compiler.source>23</maven.compiler.source>
-        <maven.compiler.target>23</maven.compiler.target>
+        <maven.compiler.source>24</maven.compiler.source>
+        <maven.compiler.target>24</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
     <issueManagement>
@@ -37,7 +37,7 @@
             <plugin>
                 <groupId>io.trino</groupId>
                 <artifactId>trino-maven-plugin</artifactId>
-                <version>11</version>
+                <version>15</version>
                 <extensions>true</extensions>
             </plugin>
             <plugin>
@@ -127,7 +127,7 @@
         <dependency>
             <groupId>io.airlift</groupId>
             <artifactId>slice</artifactId>
-            <version>2.3</version>
+            <version>2.4</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
@@ -167,4 +167,5 @@
             <scope>test</scope>
         </dependency>
     </dependencies>
+
 </project>
