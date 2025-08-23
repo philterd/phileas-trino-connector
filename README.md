@@ -8,10 +8,10 @@ Simple scalar functions are provided to redact `varchar` data provided by any ot
 
 ## Dependencies
 
-* Java 23
+* Java 24
 * Maven 3.9.x
 * [philterd/phileas](https://github.com/philterd/phileas) 
-* Trino 468
+* Trino 476
 
 ## Configuring Trino
 
