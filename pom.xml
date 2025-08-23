@@ -168,21 +168,4 @@
         </dependency>
     </dependencies>
 
-    <repositories>
-        <repository>
-            <id>philterd-repository-releases</id>
-            <url>https://artifacts.philterd.ai/releases</url>
-            <snapshots>
-                <enabled>true</enabled>
-            </snapshots>
-        </repository>
-        <repository>
-            <id>philterd-repository-snapshots</id>
-            <url>https://artifacts.philterd.ai/snapshots</url>
-            <snapshots>
-                <enabled>true</enabled>
-            </snapshots>
-        </repository>
-    </repositories>
-
 </project>
