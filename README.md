@@ -21,7 +21,7 @@ Artifacts are available from Maven Central.
 <dependency>
   <groupId>ai.philterd</groupId>
   <artifactId>phileas-connector</artifactId>
-  <version>475</version>
+  <version>481</version>
 </dependency>
 ```
 
@@ -38,7 +38,7 @@ connector.name=phileas
 phileas.policy.file=/Users/me/policy.txt
 
 3. Build the connector and redeploy
-mvn clean package && rm -rf $TRINO_HOME/plugin/phileas && cp -r ./target/phileas-connector-475 $TRINO_HOME/plugin/phileas
+mvn clean package && rm -rf $TRINO_HOME/plugin/phileas && cp -r ./target/phileas-connector-481 $TRINO_HOME/plugin/phileas
 
 4. Start Trino
 cd $TRINO_HOME

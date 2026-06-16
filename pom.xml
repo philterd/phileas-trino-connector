@@ -5,14 +5,14 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>ai.philterd</groupId>
     <artifactId>phileas-connector</artifactId>
-    <version>476-SNAPSHOT</version>
+    <version>481-SNAPSHOT</version>
     <name>phileas-connector</name>
     <description>Phileas connector for Trino</description>
     <url>https://github.com/philterd/phileas-trino-connector</url>
     <packaging>trino-plugin</packaging>
     <properties>
         <air.main.basedir>${project.basedir}</air.main.basedir>
-        <trino.version>476</trino.version>
+        <trino.version>481</trino.version>
         <maven.compiler.source>24</maven.compiler.source>
         <maven.compiler.target>24</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -50,13 +50,13 @@
             <plugin>
                 <groupId>io.trino</groupId>
                 <artifactId>trino-maven-plugin</artifactId>
-                <version>15</version>
+                <version>21</version>
                 <extensions>true</extensions>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-source-plugin</artifactId>
-                <version>3.3.1</version>
+                <version>3.4.0</version>
                 <executions>
                     <execution>
                         <id>attach-sources</id>
@@ -85,9 +85,24 @@
                 </executions>
             </plugin>
             <plugin>
+                <!-- trino-testing pulls JUnit Platform onto the test classpath, so surefire
+                     auto-detects that provider and skips the TestNG tests. Force the TestNG
+                     provider so the connector's tests actually run. -->
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>3.2.5</version>
+                <dependencies>
+                    <dependency>
+                        <groupId>org.apache.maven.surefire</groupId>
+                        <artifactId>surefire-testng</artifactId>
+                        <version>3.2.5</version>
+                    </dependency>
+                </dependencies>
+            </plugin>
+            <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-dependency-plugin</artifactId>
-                <version>3.8.1</version>
+                <version>3.11.0</version>
                 <executions>
                     <execution>
                         <id>copy-dependencies</id>
@@ -107,7 +122,7 @@
             <plugin>
                 <groupId>org.sonatype.central</groupId>
                 <artifactId>central-publishing-maven-plugin</artifactId>
-                <version>0.7.0</version>
+                <version>0.9.0</version>
                 <extensions>true</extensions>
                 <configuration>
                     <publishingServerId>central</publishingServerId>
@@ -119,8 +134,8 @@
     <dependencies>
         <dependency>
             <groupId>ai.philterd</groupId>
-            <artifactId>phileas-core</artifactId>
-            <version>2.12.3</version>
+            <artifactId>phileas</artifactId>
+            <version>4.0.0</version>
         </dependency>
         <dependency>
             <groupId>io.airlift</groupId>
@@ -160,6 +175,14 @@
             <artifactId>slice</artifactId>
             <version>2.4</version>
             <scope>provided</scope>
+            <exclusions>
+                <!-- jol-core is a build-time object-layout tool, not part of the Trino SPI;
+                     trino-maven-plugin's check-spi-dependencies rejects it at provided scope. -->
+                <exclusion>
+                    <groupId>org.openjdk.jol</groupId>
+                    <artifactId>jol-core</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
@@ -195,6 +218,15 @@
             <groupId>org.testng</groupId>
             <artifactId>testng</artifactId>
             <version>7.11.0</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <!-- slice uses JOL's ClassLayout at runtime. It is excluded from the provided
+                 slice dependency to satisfy trino-maven-plugin's SPI check (jol is supplied
+                 by the Trino server at runtime), so it is declared here for the unit tests. -->
+            <groupId>org.openjdk.jol</groupId>
+            <artifactId>jol-core</artifactId>
+            <version>0.16</version>
             <scope>test</scope>
         </dependency>
     </dependencies>

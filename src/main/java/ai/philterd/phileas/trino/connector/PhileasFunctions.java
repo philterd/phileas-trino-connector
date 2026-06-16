@@ -16,15 +16,15 @@
 
 package ai.philterd.phileas.trino.connector;
 
-import ai.philterd.phileas.model.cache.InMemoryCache;
-import ai.philterd.phileas.model.configuration.PhileasConfiguration;
-import ai.philterd.phileas.model.enums.MimeType;
-import ai.philterd.phileas.model.policy.Identifiers;
-import ai.philterd.phileas.model.policy.Policy;
-import ai.philterd.phileas.model.policy.filters.EmailAddress;
-import ai.philterd.phileas.model.policy.filters.strategies.AbstractFilterStrategy;
-import ai.philterd.phileas.model.policy.filters.strategies.rules.EmailAddressFilterStrategy;
-import ai.philterd.phileas.services.PhileasFilterService;
+import ai.philterd.phileas.PhileasConfiguration;
+import ai.philterd.phileas.policy.Identifiers;
+import ai.philterd.phileas.policy.Policy;
+import ai.philterd.phileas.policy.filters.EmailAddress;
+import ai.philterd.phileas.services.context.DefaultContextService;
+import ai.philterd.phileas.services.disambiguation.vector.InMemoryVectorService;
+import ai.philterd.phileas.services.filters.filtering.PlainTextFilterService;
+import ai.philterd.phileas.services.strategies.AbstractFilterStrategy;
+import ai.philterd.phileas.services.strategies.rules.EmailAddressFilterStrategy;
 import io.airlift.log.Logger;
 import io.airlift.slice.Slice;
 import io.trino.spi.function.Description;
@@ -46,7 +46,7 @@ public final class PhileasFunctions {
     @SqlType("varchar")
     public static Slice redact(@SqlType("varchar") Slice s) {
         try {
-            return s == null ? null : slice(filterService.filter(policy, "<cxt>", "<doc>", s.toStringUtf8(), MimeType.TEXT_PLAIN).getFilteredText());
+            return s == null ? null : slice(filterService.filter(policy, "<cxt>", s.toStringUtf8()).getFilteredText());
         } catch (Exception e) {
             log.error(e);
             return null;
@@ -73,17 +73,16 @@ public final class PhileasFunctions {
         // create filter service
         try {
             policy = new Policy();
-            policy.setName("default");
             policy.setIdentifiers(identifiers);
             Properties properties = new Properties();
-            PhileasConfiguration configuration = new PhileasConfiguration(properties, "phileas");
-            filterService = new PhileasFilterService(configuration, new InMemoryCache());
+            PhileasConfiguration configuration = new PhileasConfiguration(properties);
+            filterService = new PlainTextFilterService(configuration, new DefaultContextService(), new InMemoryVectorService(), null);
         } catch (Exception e) {
             log.error(e);
         }
     }
 
-    private static PhileasFilterService filterService;
+    private static PlainTextFilterService filterService;
     private static Policy policy;
 
     private static final Logger log = Logger.get(PhileasFunctions.class);
