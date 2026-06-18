@@ -6,6 +6,13 @@ Simple scalar functions are provided to redact `varchar` data provided by any ot
 
 [![CodeFactor](https://www.codefactor.io/repository/github/philterd/phileas-connector/badge)](https://www.codefactor.io/repository/github/philterd/phileas-connector)
 
+## Runnable demo
+
+The [`demo/`](demo/) directory has a one-command, self-contained demo: `docker compose up` stands up
+Trino with this connector and a Postgres source seeded with synthetic PII, with copy-paste queries
+that redact a column in a `SELECT`, redact across a `JOIN`, and expose a redacted view. See
+[`demo/README.md`](demo/README.md).
+
 ## Dependencies
 
 * Java 25

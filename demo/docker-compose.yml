@@ -1,0 +1,37 @@
+# Self-contained demo: Trino + the Phileas connector + a Postgres source seeded with
+# synthetic PII. Build the plugin first (from the repo root): mvn -DskipTests package
+# Then, from this directory: docker compose up
+#
+# The plugin directory mounted below is produced by the build. If the connector version
+# changes, update the path in the trino service's volumes to match target/phileas-connector-<version>.
+
+services:
+  postgres:
+    image: postgres:16
+    environment:
+      POSTGRES_USER: demo
+      POSTGRES_PASSWORD: demo
+      POSTGRES_DB: demo
+    volumes:
+      - ./postgres/init.sql:/docker-entrypoint-initdb.d/init.sql:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U demo -d demo"]
+      interval: 5s
+      timeout: 5s
+      retries: 12
+
+  trino:
+    image: trinodb/trino:481
+    depends_on:
+      postgres:
+        condition: service_healthy
+    ports:
+      - "8080:8080"
+    volumes:
+      # The built Phileas connector plugin (jar + dependencies).
+      - ../target/phileas-connector-481-SNAPSHOT:/usr/lib/trino/plugin/phileas:ro
+      # Trino catalogs: the Phileas function/connector and the Postgres source.
+      - ./trino/catalog/phileas.properties:/etc/trino/catalog/phileas.properties:ro
+      - ./trino/catalog/postgresql.properties:/etc/trino/catalog/postgresql.properties:ro
+      # The redaction policy the connector loads at startup.
+      - ./policy/demo-policy.json:/etc/phileas/demo-policy.json:ro

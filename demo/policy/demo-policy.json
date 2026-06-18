@@ -1,0 +1,35 @@
+{
+  "name": "trino-demo",
+  "identifiers": {
+    "emailAddress": {
+      "emailAddressFilterStrategies": [
+        { "strategy": "REDACT", "redactionFormat": "[EMAIL]" }
+      ]
+    },
+    "phoneNumber": {
+      "phoneNumberFilterStrategies": [
+        { "strategy": "REDACT", "redactionFormat": "[PHONE]" }
+      ]
+    },
+    "ssn": {
+      "ssnFilterStrategies": [
+        { "strategy": "REDACT", "redactionFormat": "[SSN]" }
+      ]
+    },
+    "creditCard": {
+      "creditCardFilterStrategies": [
+        { "strategy": "REDACT", "redactionFormat": "[CARD]" }
+      ]
+    },
+    "firstName": {
+      "firstNameFilterStrategies": [
+        { "strategy": "REDACT", "redactionFormat": "[NAME]" }
+      ]
+    },
+    "surname": {
+      "surnameFilterStrategies": [
+        { "strategy": "REDACT", "redactionFormat": "[NAME]" }
+      ]
+    }
+  }
+}

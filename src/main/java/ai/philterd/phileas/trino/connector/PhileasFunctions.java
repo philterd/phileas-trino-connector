@@ -25,6 +25,7 @@ import ai.philterd.phileas.services.disambiguation.vector.InMemoryVectorService;
 import ai.philterd.phileas.services.filters.filtering.PlainTextFilterService;
 import ai.philterd.phileas.services.strategies.AbstractFilterStrategy;
 import ai.philterd.phileas.services.strategies.rules.EmailAddressFilterStrategy;
+import com.google.gson.Gson;
 import io.airlift.log.Logger;
 import io.airlift.slice.Slice;
 import io.trino.spi.function.Description;
@@ -32,6 +33,8 @@ import io.trino.spi.function.ScalarFunction;
 import io.trino.spi.function.SqlNullable;
 import io.trino.spi.function.SqlType;
 
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.List;
 import java.util.Properties;
 
@@ -58,28 +61,42 @@ public final class PhileasFunctions {
     }
 
     static void use(PhileasConfig config) {
-        if (config != null) log.info("using phileas config: policy.file=" + config.getPolicyFile());     // todo use file to configure identifiers
+        final String policyFile = (config == null) ? null : config.getPolicyFile();
 
-        // configure identifiers to mask email addresses (temporary)
-        Identifiers identifiers = new Identifiers();
-        EmailAddressFilterStrategy fs = new EmailAddressFilterStrategy();
-        fs.setStrategy(AbstractFilterStrategy.MASK);
-        fs.setMaskCharacter("*");
-        fs.setMaskLength(AbstractFilterStrategy.SAME);
-        EmailAddress x = new EmailAddress();
-        x.setEmailAddressFilterStrategies(List.of(fs));
-        identifiers.setEmailAddress(x);
-
-        // create filter service
         try {
-            policy = new Policy();
-            policy.setIdentifiers(identifiers);
-            Properties properties = new Properties();
-            PhileasConfiguration configuration = new PhileasConfiguration(properties);
+            if (policyFile != null && !policyFile.isBlank()) {
+                // Load the redaction policy from the configured JSON file. A Phileas Policy is a
+                // Gson POJO, so this deserializes the same way Phileas itself loads a policy.
+                final String json = Files.readString(Path.of(policyFile));
+                policy = new Gson().fromJson(json, Policy.class);
+                log.info("loaded phileas policy from " + policyFile);
+            } else {
+                // No policy file configured: fall back to a built-in policy that masks email addresses.
+                log.info("no phileas.policy.file configured; using built-in email-only policy");
+                policy = defaultPolicy();
+            }
+
+            final Properties properties = new Properties();
+            final PhileasConfiguration configuration = new PhileasConfiguration(properties);
             filterService = new PlainTextFilterService(configuration, new DefaultContextService(), new InMemoryVectorService(), null);
         } catch (Exception e) {
             log.error(e);
         }
+    }
+
+    // The built-in policy used when no phileas.policy.file is configured: mask email addresses only.
+    private static Policy defaultPolicy() {
+        final Identifiers identifiers = new Identifiers();
+        final EmailAddressFilterStrategy fs = new EmailAddressFilterStrategy();
+        fs.setStrategy(AbstractFilterStrategy.MASK);
+        fs.setMaskCharacter("*");
+        fs.setMaskLength(AbstractFilterStrategy.SAME);
+        final EmailAddress x = new EmailAddress();
+        x.setEmailAddressFilterStrategies(List.of(fs));
+        identifiers.setEmailAddress(x);
+        final Policy p = new Policy();
+        p.setIdentifiers(identifiers);
+        return p;
     }
 
     private static PlainTextFilterService filterService;
