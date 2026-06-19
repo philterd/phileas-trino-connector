@@ -4,6 +4,8 @@ Phileas functions for Trino
 This [Trino](https://trino.io) connector uses [Phileas](https://github.com/philterd/phileas) to detect and redact PII tokens.
 Simple scalar functions are provided to redact `varchar` data provided by any other Trino data source.
 
+For a full walkthrough, see the [Redacting PII in Trino guide](https://philterd.ai/guides/redacting-pii-in-trino-with-the-phileas-connector/) on philterd.ai.
+
 [![CodeFactor](https://www.codefactor.io/repository/github/philterd/phileas-trino-connector/badge)](https://www.codefactor.io/repository/github/philterd/phileas-trino-connector)
 
 ## Runnable demo
@@ -22,7 +24,7 @@ that redact a column in a `SELECT`, redact across a `JOIN`, and expose a redacte
 
 ## Artifacts
 
-Artifacts are available from Maven Central.
+Maven coordinates:
 
 ```
 <dependency>
@@ -31,6 +33,8 @@ Artifacts are available from Maven Central.
   <version>481</version>
 </dependency>
 ```
+
+Development builds are published as snapshots (`ai.philterd:phileas-trino-connector:481-SNAPSHOT`) to the [Maven Central snapshot repository](https://central.sonatype.com/repository/maven-snapshots/) on each commit to `main`. Release versions are published to Maven Central once a release is cut.
 
 ## Configuring Trino
 
