@@ -30,7 +30,7 @@ From the repository root (one level up from this directory):
 mvn -DskipTests package
 ```
 
-This produces `target/phileas-connector-481-SNAPSHOT/`, the plugin directory the demo mounts into
+This produces `target/phileas-trino-connector-481-SNAPSHOT/`, the plugin directory the demo mounts into
 Trino. If the connector version changes, update the matching path in
 [`docker-compose.yml`](docker-compose.yml).
 

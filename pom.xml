@@ -4,9 +4,9 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <groupId>ai.philterd</groupId>
-    <artifactId>phileas-connector</artifactId>
+    <artifactId>phileas-trino-connector</artifactId>
     <version>481-SNAPSHOT</version>
-    <name>phileas-connector</name>
+    <name>phileas-trino-connector</name>
     <description>Phileas connector for Trino</description>
     <url>https://github.com/philterd/phileas-trino-connector</url>
     <packaging>trino-plugin</packaging>
@@ -45,6 +45,12 @@
         <developerConnection>scm:git@github.com:philterd/phileas-trino-connector.git</developerConnection>
         <url>https://github.com/philterd/phileas-trino-connector/</url>
     </scm>
+    <distributionManagement>
+        <snapshotRepository>
+            <id>central</id>
+            <url>https://central.sonatype.com/repository/maven-snapshots/</url>
+        </snapshotRepository>
+    </distributionManagement>
     <build>
         <plugins>
             <plugin>

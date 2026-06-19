@@ -1,10 +1,10 @@
-# phileas-connector
+# phileas-trino-connector
 Phileas functions for Trino
 
 This [Trino](https://trino.io) connector uses [Phileas](https://github.com/philterd/phileas) to detect and redact PII tokens.
 Simple scalar functions are provided to redact `varchar` data provided by any other Trino data source.
 
-[![CodeFactor](https://www.codefactor.io/repository/github/philterd/phileas-connector/badge)](https://www.codefactor.io/repository/github/philterd/phileas-connector)
+[![CodeFactor](https://www.codefactor.io/repository/github/philterd/phileas-trino-connector/badge)](https://www.codefactor.io/repository/github/philterd/phileas-trino-connector)
 
 ## Runnable demo
 
@@ -27,7 +27,7 @@ Artifacts are available from Maven Central.
 ```
 <dependency>
   <groupId>ai.philterd</groupId>
-  <artifactId>phileas-connector</artifactId>
+  <artifactId>phileas-trino-connector</artifactId>
   <version>481</version>
 </dependency>
 ```
@@ -45,7 +45,7 @@ connector.name=phileas
 phileas.policy.file=/Users/me/policy.txt
 
 3. Build the connector and redeploy
-mvn clean package && rm -rf $TRINO_HOME/plugin/phileas && cp -r ./target/phileas-connector-481 $TRINO_HOME/plugin/phileas
+mvn clean package && rm -rf $TRINO_HOME/plugin/phileas && cp -r ./target/phileas-trino-connector-481 $TRINO_HOME/plugin/phileas
 
 4. Start Trino
 cd $TRINO_HOME

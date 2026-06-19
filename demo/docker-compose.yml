@@ -3,7 +3,7 @@
 # Then, from this directory: docker compose up
 #
 # The plugin directory mounted below is produced by the build. If the connector version
-# changes, update the path in the trino service's volumes to match target/phileas-connector-<version>.
+# changes, update the path in the trino service's volumes to match target/phileas-trino-connector-<version>.
 
 services:
   postgres:
@@ -29,7 +29,7 @@ services:
       - "8080:8080"
     volumes:
       # The built Phileas connector plugin (jar + dependencies).
-      - ../target/phileas-connector-481-SNAPSHOT:/usr/lib/trino/plugin/phileas:ro
+      - ../target/phileas-trino-connector-481-SNAPSHOT:/usr/lib/trino/plugin/phileas:ro
       # Trino catalogs: the Phileas function/connector and the Postgres source.
       - ./trino/catalog/phileas.properties:/etc/trino/catalog/phileas.properties:ro
       - ./trino/catalog/postgresql.properties:/etc/trino/catalog/postgresql.properties:ro
