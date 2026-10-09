@@ -4,7 +4,7 @@ Phileas functions for Trino
 This [Trino](https://trino.io) connector uses [Phileas](https://github.com/philterd/phileas) to detect and redact PII tokens.
 Simple scalar functions are provided to redact `varchar` data provided by any other Trino data source.
 
-For a full walkthrough, see the [Redacting PII in Trino guide](https://philterd.ai/guides/redacting-pii-in-trino-with-the-phileas-connector/) on philterd.ai.
+For a full walkthrough, see the [Redacting PII in Trino guide](https://philterd.ai/guides/redacting-pii-in-trino-with-the-phileas-connector/) on philterd.ai. For install, the policy file, query patterns, and where it fits architecturally, see [PII Masking and Redaction in Trino with the Phileas Connector](https://philterd.ai/blog/the-phileas-trino-connector-redaction-as-sql/) on the Philterd blog.
 
 [![CodeFactor](https://www.codefactor.io/repository/github/philterd/phileas-trino-connector/badge)](https://www.codefactor.io/repository/github/philterd/phileas-trino-connector)
 
@@ -64,6 +64,10 @@ Use DBeaver or your favorite SQL editor to try the `phileas_redact` function.
 select phileas_redact('my email is rik@resurfacd.io')
 --> my email is ****************
 ```
+
+## Community
+
+Questions, ideas, or want to contribute? Users and developers are welcome to join the [Philterd Slack workspace](https://philterd.ai/slack/).
 
 ---
 Copyright 2024-2025 Philterd, LLC @ https://www.philterd.ai
